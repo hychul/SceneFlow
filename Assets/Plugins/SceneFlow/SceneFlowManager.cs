@@ -42,7 +42,7 @@ namespace SceneFlow
 			return _sceneStack.PopLast();
 		}
 
-		public static SceneParam GetIntent()
+		public static SceneParam GetParam()
 		{
 			return _sceneParam;
 		}

@@ -5,17 +5,23 @@ public class SimpleSceneLoader : MonoBehaviour {
 
 	public void LoadScene(string sceneName) 
 	{
-		var intent = new SceneParam();
-		intent.PutParam("loading_scene", sceneName);
-		SceneFlowManager.LoadScene("Loading", sceneParam: intent);
+		var param = new SceneParam();
+		param.PutParam("loading_scene", sceneName);
+		SceneFlowManager.LoadScene("Loading", sceneParam: param);
 	}
 
 	public void LoadPreviousScene()
 	{
 		var preScene = SceneFlowManager.GetPreviousScene();
 		
-		var intent = new SceneParam();
-		intent.PutParam("loading_scene", preScene);
-		SceneFlowManager.LoadScene("Loading", sceneParam: intent, stack: false);
+		if (preScene == string.Empty)
+		{
+			Debug.Log("No previous scene");
+			return;
+		}
+
+		var param = new SceneParam();
+		param.PutParam("loading_scene", preScene);
+		SceneFlowManager.LoadScene("Loading", sceneParam: param, stack: false);
 	}
 }

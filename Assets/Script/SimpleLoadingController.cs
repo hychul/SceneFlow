@@ -12,8 +12,8 @@ public class SimpleLoadingController : SceneFlowLoadingController
 
     private void Start()
     {
-        var intent = SceneFlowManager.GetIntent();
-        LoadScene(intent.GetParam<string>("loading_scene"));
+        var param = SceneFlowManager.GetParam();
+        LoadScene(param.GetParam<string>("loading_scene"));
     }
 
     protected override void OnInitialize()
