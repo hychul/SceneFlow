@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using SceneFlow;
+﻿using SceneFlow;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +9,13 @@ public class SimpleLoadingController : SceneFlowLoadingController
 	
     [SerializeField] private Text txtLoading;
     [SerializeField] private Slider sldrLoading;
-	
+
+    private void Start()
+    {
+        var intent = SceneFlowManager.GetIntent();
+        LoadScene(intent.GetParam<string>("loading_scene"));
+    }
+
     protected override void OnInitialize()
     {
         txtLoading.text = LOADING_TEXT;

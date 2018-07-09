@@ -16,15 +16,11 @@ namespace SceneFlow
             OnInitialize();
         }
 
-		private void Start() {
-			LoadScene();
-		}
-
         protected abstract void OnInitialize();
 
-        private void LoadScene()
+        public void LoadScene(string sceneName)
         {
-            sceneLoading = SceneFlowManager.LoadCachedSceneAsync();
+            sceneLoading = SceneFlowManager.LoadSceneAsync(sceneName, stack: false);
             sceneLoading.allowSceneActivation = false;
             
             StartCoroutine(LoadingSceneProgress());

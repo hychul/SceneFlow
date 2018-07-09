@@ -10,158 +10,103 @@ namespace SceneFlow
 	{
 		private const int MAX_STACK_SIZE = 5;
 
-		private static readonly Stack<string> sceneStack = new Stack<string>();
+		private static readonly Stack<string> _sceneStack = new Stack<string>();
 
-		private static string cachedScene;
-
-		public static void LoadScene(string sceneName, string viaScene = null)
+		private static SceneParam _sceneParam;
+		
+		public static void LoadScene(string sceneName, SceneParam sceneParam = null, bool stack = true)
 		{
-			PushCurrentScene();
-
-			if (viaScene == null)
-			{
-				SceneManager.LoadScene(sceneName);
-			}
-			else
-			{
-				cachedScene = sceneName;
-				SceneManager.LoadScene(viaScene);
-			}
-		}
-
-		public static void LoadPreviousScene(string viaScene = null)
-		{
-			if (sceneStack.Empty)
-			{
-				Debug.LogError("Previous scene is NOT EXIST");
-				return;
-			}
-
-			if (viaScene == null)
-			{
-				SceneManager.LoadScene(sceneStack.PopLast());				
-			}
-			else
-			{
-				cachedScene = sceneStack.PopLast();
-				SceneManager.LoadScene(viaScene);
-			}
-		}
-
-		public static void LoadCachedScene()
-		{
-			if (string.IsNullOrEmpty(cachedScene))
-			{
-				Debug.LogError("Cached scene is NOT EXIST");
-				return;
-			}
-
-			var sceneName = cachedScene;
-			cachedScene = string.Empty;
+			if (stack)
+				PushCurrentScene();
 			
+			_sceneParam = sceneParam;
+
 			SceneManager.LoadScene(sceneName);
 		}
 
-		public static AsyncOperation LoadSceneAsync(string sceneName, string viaScene = null)
+		public static AsyncOperation LoadSceneAsync(string sceneName, SceneParam sceneParam = null, bool stack = true)
 		{
-			PushCurrentScene();
-
-			if (viaScene == null)
-				return SceneManager.LoadSceneAsync(sceneName);
+			if (stack)
+				PushCurrentScene();
 			
-			cachedScene = sceneName;
-			return SceneManager.LoadSceneAsync(viaScene);
-		}
+			_sceneParam = sceneParam;
 
-		public static AsyncOperation LoadPreviousSceneAsync(string viaScene = null)
-		{
-			if (sceneStack.Empty)
-			{
-				Debug.LogError("Previous scene is NOT EXIST");
-				return null;
-			}
-			
-			if (viaScene == null)
-				return SceneManager.LoadSceneAsync(sceneStack.PopLast());
-			
-			cachedScene = sceneStack.PopLast();
-			return SceneManager.LoadSceneAsync(viaScene);
-		}
-
-		public static AsyncOperation LoadCachedSceneAsync()
-		{
-			if (string.IsNullOrEmpty(cachedScene))
-			{
-				Debug.LogError("Cached scene is NOT EXIST");
-				return null;
-			}
-
-			var sceneName = cachedScene;
-			cachedScene = string.Empty;
-			
 			return SceneManager.LoadSceneAsync(sceneName);
+		}
+
+		public static string GetPreviousScene()
+		{
+			if (_sceneStack.Empty)
+				return string.Empty;
+
+			return _sceneStack.PopLast();
+		}
+
+		public static SceneParam GetIntent()
+		{
+			return _sceneParam;
 		}
 
 		private static void PushCurrentScene()
 		{
-			sceneStack.PushLast(SceneManager.GetActiveScene().name);
+			_sceneStack.PushLast(SceneManager.GetActiveScene().name);
 
-			if (MAX_STACK_SIZE < sceneStack.Count)
-				sceneStack.PopFirst();
-		}
-	}
-
-	public class Stack<T>
-	{
-		private LinkedList<T> list;
-
-		public bool Empty
-		{
-			get { return list.Count < 1; }
+			if (MAX_STACK_SIZE < _sceneStack.Count)
+				_sceneStack.PopFirst();
 		}
 
-		public int Count
+		private class Stack<T>
 		{
-			get { return list.Count; }
-		}
+			private LinkedList<T> list;
 
-		public Stack()
-		{
-			list = new LinkedList<T>();
-		}
+			public bool Empty
+			{
+				get { return list.Count < 1; }
+			}
 
-		public void PushLast(T element)
-		{
-			list.AddLast(element);
-		}
+			public int Count
+			{
+				get { return list.Count; }
+			}
 
-		public T PopLast()
-		{
-			var element = list.Last.Value;
-			list.RemoveLast();
-			return element;
-		}
+			public Stack()
+			{
+				list = new LinkedList<T>();
+			}
 
-		public void PushFirst(T element)
-		{
-			list.AddFirst(element);
-		}
+			public void PushLast(T element)
+			{
+				list.AddLast(element);
+			}
 
-		public T PopFirst()
-		{
-			var element = list.First.Value;
-			list.RemoveFirst();
-			return element;
-		}
+			public T PopLast()
+			{
+				var element = list.Last.Value;
+				list.RemoveLast();
+				return element;
+			}
 
-		public override string ToString()
-		{
-			var builder = new StringBuilder();
-			builder.Append(string.Format("Count : {0}\n", list.Count));
-			for (var i = 0; i < list.Count; i++)
-				builder.Append(string.Format("{0} : {1} \n", i, list.ElementAt(i)));
+			public void PushFirst(T element)
+			{
+				list.AddFirst(element);
+			}
 
-			return builder.ToString();
+			public T PopFirst()
+			{
+				var element = list.First.Value;
+				list.RemoveFirst();
+				return element;
+			}
+
+			public override string ToString()
+			{
+				var builder = new StringBuilder();
+				builder.Append(string.Format("Count : {0}\n", list.Count));
+				for (var i = 0; i < list.Count; i++)
+					builder.Append(string.Format("{0} : {1} \n", i, list.ElementAt(i)));
+
+				return builder.ToString();
+			}
 		}
 	}
 }
