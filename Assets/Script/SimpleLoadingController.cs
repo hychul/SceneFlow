@@ -13,6 +13,11 @@ public class SimpleLoadingController : SceneFlowLoadingController
     [SerializeField] private Text txtLoading;
     [SerializeField] private Slider sldrLoading;
 
+    private void Awake()
+    {
+        txtLoading.text = LOADING_TEXT;
+    }
+    
     private void Start()
     {
         StartCoroutine("DelayLoading", LOADING_DELAY);
@@ -24,11 +29,6 @@ public class SimpleLoadingController : SceneFlowLoadingController
         
         var param = SceneFlowManager.GetParam();
         LoadScene(param.GetParam<string>("loading_scene"));
-    }
-
-    protected override void OnInitialize()
-    {
-        txtLoading.text = LOADING_TEXT;
     }
 	
     protected override void OnProgressUpdate(float progress)

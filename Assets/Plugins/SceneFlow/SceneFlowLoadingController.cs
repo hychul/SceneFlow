@@ -9,13 +9,6 @@ namespace SceneFlow
 
         private AsyncOperation sceneLoading;
 
-        private void Awake()
-        {
-            OnInitialize();
-        }
-
-        protected abstract void OnInitialize();
-
         public void LoadScene(string sceneName)
         {
             sceneLoading = SceneFlowManager.LoadSceneAsync(sceneName);
@@ -24,7 +17,7 @@ namespace SceneFlow
             StartCoroutine(LoadingSceneProgress());
         }
 
-        IEnumerator LoadingSceneProgress()
+        private IEnumerator LoadingSceneProgress()
         {
             while (!sceneLoading.isDone)
             {
