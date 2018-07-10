@@ -5,8 +5,6 @@ namespace SceneFlow
 {
     public abstract class SceneFlowLoadingController : MonoBehaviour
     {
-        private const float LOADING_DELAY = 0.3f;
-        
         private const float LOAD_READY_PERCENTAGE = 0.9f;
 
         private AsyncOperation sceneLoading;
@@ -28,8 +26,6 @@ namespace SceneFlow
 
         IEnumerator LoadingSceneProgress()
         {
-            yield return new WaitForSeconds(LOADING_DELAY);
-            
             while (!sceneLoading.isDone)
             {
                 if (LOAD_READY_PERCENTAGE <= sceneLoading.progress)

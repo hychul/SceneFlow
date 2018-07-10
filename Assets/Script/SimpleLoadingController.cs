@@ -1,9 +1,12 @@
-﻿using SceneFlow;
+﻿using System.Collections;
+using SceneFlow;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SimpleLoadingController : SceneFlowLoadingController
 {
+    private const float LOADING_DELAY = 0.3f;
+
     private const string LOADING_TEXT = "LOADING...";
     private const string LOADED_TEXT = "TAP TO CONTINUE";
 	
@@ -12,6 +15,13 @@ public class SimpleLoadingController : SceneFlowLoadingController
 
     private void Start()
     {
+        StartCoroutine("StartLoading");
+    }
+
+    IEnumerator StartLoading()
+    {
+        yield return new WaitForSeconds(LOADING_DELAY);
+        
         var param = SceneFlowManager.GetParam();
         LoadScene(param.GetParam<string>("loading_scene"));
     }
