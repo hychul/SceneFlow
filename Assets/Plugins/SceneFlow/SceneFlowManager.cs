@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace SceneFlow
 
 		public static void SetSceneStackSize(int size)
 		{
-			_stackSize = size;
+			_stackSize = Math.Max(0, size);
 
 			var margin = _sceneStack.Count - _stackSize;
 			for (var i = 0; i < margin; i++)
