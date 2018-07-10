@@ -6,10 +6,6 @@ Unity plugin to handle scene flows
 
 # Usage
 
-## Load Previous Scene
-
-Loading scenes through the SceneFlowManager creates history stack. The name of the previous scene can be obtained through the `GetPreviousScene()` method.
-
 ## Load Scene with Parameter
 
 By using SceneParam class, parameters could be passed between scenes. This class can handle any type of object with name to use when get parameter.
@@ -33,3 +29,8 @@ string stringParam = param.GetParam<string>("string_param");
 Something classParam = param.GetParam<Something>("class_param");
 ```
 
+## Load Previous Scene
+
+SceneFlowManger hold scene history stack and the stack managed with explicit methods : `PushCurrentScene()` and `PopPreviousScene()`.
+
+Default size of scene stack is 5. This value can be change with `SetSceneStackSize()` method.
