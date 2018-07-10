@@ -7,12 +7,13 @@ public class SimpleSceneLoader : MonoBehaviour {
 	{
 		var param = new SceneParam();
 		param.PutParam("loading_scene", sceneName);
+		SceneFlowManager.PushCurrentScene();
 		SceneFlowManager.LoadScene("Loading", sceneParam: param);
 	}
 
 	public void LoadPreviousScene()
 	{
-		var preScene = SceneFlowManager.GetPreviousScene();
+		var preScene = SceneFlowManager.PopPreviousScene();
 		
 		if (preScene == string.Empty)
 		{
@@ -22,6 +23,7 @@ public class SimpleSceneLoader : MonoBehaviour {
 
 		var param = new SceneParam();
 		param.PutParam("loading_scene", preScene);
-		SceneFlowManager.LoadScene("Loading", sceneParam: param, stack: false);
+		
+		SceneFlowManager.LoadScene("Loading", sceneParam: param);
 	}
 }

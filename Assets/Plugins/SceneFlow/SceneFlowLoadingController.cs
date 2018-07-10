@@ -20,7 +20,7 @@ namespace SceneFlow
 
         public void LoadScene(string sceneName)
         {
-            sceneLoading = SceneFlowManager.LoadSceneAsync(sceneName, stack: false);
+            sceneLoading = SceneFlowManager.LoadSceneAsync(sceneName);
             sceneLoading.allowSceneActivation = false;
             
             StartCoroutine(LoadingSceneProgress());

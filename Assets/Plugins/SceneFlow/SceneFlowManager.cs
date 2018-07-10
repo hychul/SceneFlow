@@ -8,50 +8,49 @@ namespace SceneFlow
 {
 	public class SceneFlowManager
 	{
-		private const int MAX_STACK_SIZE = 5;
-
 		private static readonly Stack<string> _sceneStack = new Stack<string>();
+		private static int _stackSize = 5;
 
 		private static SceneParam _sceneParam;
-		
-		public static void LoadScene(string sceneName, SceneParam sceneParam = null, bool stack = true)
-		{
-			if (stack)
-				PushCurrentScene();
-			
-			_sceneParam = sceneParam;
-
-			SceneManager.LoadScene(sceneName);
-		}
-
-		public static AsyncOperation LoadSceneAsync(string sceneName, SceneParam sceneParam = null, bool stack = true)
-		{
-			if (stack)
-				PushCurrentScene();
-			
-			_sceneParam = sceneParam;
-
-			return SceneManager.LoadSceneAsync(sceneName);
-		}
-
-		public static string GetPreviousScene()
-		{
-			if (_sceneStack.Empty)
-				return string.Empty;
-
-			return _sceneStack.PopLast();
-		}
 
 		public static SceneParam GetParam()
 		{
 			return _sceneParam;
 		}
+		
+		public static void LoadScene(string sceneName, SceneParam sceneParam = null)
+		{
+			_sceneParam = sceneParam;
 
-		private static void PushCurrentScene()
+			SceneManager.LoadScene(sceneName);
+		}
+
+		public static AsyncOperation LoadSceneAsync(string sceneName, SceneParam sceneParam = null)
+		{
+			_sceneParam = sceneParam;
+
+			return SceneManager.LoadSceneAsync(sceneName);
+		}
+
+		public static void SetSceneStackSize(int size)
+		{
+			_stackSize = size;
+
+			var margin = _sceneStack.Count - _stackSize;
+			for (var i = 0; i < margin; i++)
+				_sceneStack.PopFirst();
+		}
+
+		public static string PopPreviousScene()
+		{
+			return _sceneStack.Empty ? string.Empty : _sceneStack.PopLast();
+		}
+
+		public static void PushCurrentScene()
 		{
 			_sceneStack.PushLast(SceneManager.GetActiveScene().name);
 
-			if (MAX_STACK_SIZE < _sceneStack.Count)
+			if (_stackSize < _sceneStack.Count)
 				_sceneStack.PopFirst();
 		}
 
