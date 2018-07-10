@@ -15,12 +15,12 @@ public class SimpleLoadingController : SceneFlowLoadingController
 
     private void Start()
     {
-        StartCoroutine("StartLoading");
+        StartCoroutine("DelayLoading", LOADING_DELAY);
     }
 
-    IEnumerator StartLoading()
+    IEnumerator DelayLoading(float delay)
     {
-        yield return new WaitForSeconds(LOADING_DELAY);
+        yield return new WaitForSeconds(delay);
         
         var param = SceneFlowManager.GetParam();
         LoadScene(param.GetParam<string>("loading_scene"));
