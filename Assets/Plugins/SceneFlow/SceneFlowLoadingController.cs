@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SceneFlow
 {
@@ -9,9 +10,9 @@ namespace SceneFlow
 
         private AsyncOperation sceneLoading;
 
-        public void LoadScene(string sceneName)
+        public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            sceneLoading = SceneFlowManager.LoadSceneAsync(sceneName);
+            sceneLoading = SceneFlowManager.LoadSceneAsync(sceneName, mode: mode);
             sceneLoading.allowSceneActivation = false;
             
             StartCoroutine(LoadingSceneProgress());
