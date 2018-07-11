@@ -1,8 +1,8 @@
 ﻿using SceneFlow;
 using UnityEngine;
 
-public class SimpleSceneLoader : MonoBehaviour {
-
+public class SimpleSceneLoader : MonoBehaviour 
+{
 	public void LoadScene(string sceneName) 
 	{
 		var param = new SceneParam();

@@ -19,18 +19,18 @@ namespace SceneFlow
 			return _sceneParam;
 		}
 		
-		public static void LoadScene(string sceneName, SceneParam sceneParam = null)
+		public static void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, SceneParam sceneParam = null)
 		{
 			_sceneParam = sceneParam;
 
-			SceneManager.LoadScene(sceneName);
+			SceneManager.LoadScene(sceneName, mode);
 		}
 
-		public static AsyncOperation LoadSceneAsync(string sceneName, SceneParam sceneParam = null)
+		public static AsyncOperation LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, SceneParam sceneParam = null)
 		{
 			_sceneParam = sceneParam;
 
-			return SceneManager.LoadSceneAsync(sceneName);
+			return SceneManager.LoadSceneAsync(sceneName, mode);
 		}
 
 		public static void SetSceneStackSize(int size)
