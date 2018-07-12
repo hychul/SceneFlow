@@ -23,7 +23,7 @@ public class SimpleLoadingController : SceneFlowLoadingController
         StartCoroutine("DelayLoading", LOADING_DELAY);
     }
 
-    IEnumerator DelayLoading(float delay)
+    private IEnumerator DelayLoading(float delay)
     {
         yield return new WaitForSeconds(delay);
         
@@ -41,8 +41,18 @@ public class SimpleLoadingController : SceneFlowLoadingController
     {
         sldrLoading.value = 1.0f;
         txtLoading.text = LOADED_TEXT;
-        
-        if (Input.GetMouseButtonDown(0))
-            AllowSceneActivation();
+
+        StartCoroutine("TapToContinue");
+    }
+
+    private IEnumerator TapToContinue()
+    {
+        while (true)
+        {
+            if (Input.GetMouseButtonDown(0))
+                AllowSceneActivation();
+
+            yield return null;
+        }
     }
 }
