@@ -34,15 +34,15 @@ public class SimpleLoadingController : SceneFlowLoadingController
     protected override void OnProgressUpdate(float progress)
     {
         sldrLoading.value = progress;
-		
-        if (progress < 1f)
-            txtLoading.text = LOADING_TEXT;
-        else
-        {
-            txtLoading.text = LOADED_TEXT;
-			
-            if (Input.GetMouseButtonDown(0))
-                AllowSceneActivation();
-        }
+        txtLoading.text = LOADING_TEXT;
+    }
+
+    protected override void OnProgressEnd()
+    {
+        sldrLoading.value = 1.0f;
+        txtLoading.text = LOADED_TEXT;
+        
+        if (Input.GetMouseButtonDown(0))
+            AllowSceneActivation();
     }
 }

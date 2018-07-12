@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,7 @@ namespace SceneFlow
     public abstract class SceneFlowLoadingController : MonoBehaviour
     {
         private const float LOAD_READY_PERCENTAGE = 0.9f;
+        private const float LOAD_EPSILON = 0.001f;
 
         private AsyncOperation sceneLoading;
 
@@ -22,8 +24,8 @@ namespace SceneFlow
         {
             while (!sceneLoading.isDone)
             {
-                if (LOAD_READY_PERCENTAGE <= sceneLoading.progress)
-                    OnProgressUpdate(1f);
+                if (Math.Abs(LOAD_READY_PERCENTAGE - sceneLoading.progress) < LOAD_EPSILON)
+                    OnProgressEnd();
                 else
                     OnProgressUpdate(sceneLoading.progress);
 
@@ -32,6 +34,8 @@ namespace SceneFlow
         }
 
         protected abstract void OnProgressUpdate(float progress);
+
+        protected abstract void OnProgressEnd();
 
         protected void AllowSceneActivation()
         {
